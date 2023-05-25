@@ -1,49 +1,43 @@
 #include <stdio.h>
 #include <string.h> 
 #include <check.h>
+#include <stdlib.h>
 
 #include "s21_string.h"
 
-int main() {
-    // s21_size_t *tr;
-    // s21_size_t a = 3;
-    // tr = &a;
-    // printf("%ld", *tr);
+Suite *test_strlen(void);
 
-   // Исходный массив
-   unsigned char src[15] = {64, 65, 66, 67, 68, 69, 70, 71 , 72};
-   // Переменная, в которую будет сохранен указатель
-   // на искомый символ.
-    // for (int i = 0; i < 15; i++) {
-    //     src[i] = i;
-    // }
+START_TEST(strlen_1) {
+   char *str = "Hello, world!";
+   ck_assert_int_eq(strlen(str), s21_strlen(str));
+}
+END_TEST
 
-   char *sym;
+Suite *test_strlen(void) {
+   Suite *test_set = suite_create("========= S21_STRLEN =========");
+   TCase *test_group = tcase_create("strlen_test_group");
+   // add other tests
 
-   // Вывод исходного массива
-   printf ("src old: %s\n",src);
+   tcase_add_test(test_group, strlen_1);
 
-   // Поиск требуемого символа
-   sym = memchr (src, 'B', 10);
+   suite_add_tcase(test_set, test_group);
+   return test_set;
+}
 
-   // Если требуемый символ найден, то заменяем его
-   // на символ '!'
-   if (sym != NULL)
-      sym[0]='!';
+int main(void) {
+   int failed = 0;
+   Suite *s21_string_test[] = {test_strlen()}; // add other suite
 
-   // Вывод исходного массива
-   char st[20];
-//    char *cc = "ss";
-   char *ccc = "abcdefg";
-   strcpy (st,"To be ");
-   strncat(st, ccc, 4); 
+   for (int i = 0; i < 1; i++) {  // (&& failed == 0)
+      SRunner *sr = srunner_create(s21_string_test[i]);
 
-//    strtok(cc, "t");
-   printf ("src new: %s\n",src);
+      srunner_set_fork_status(sr, CK_NOFORK);
+      srunner_run_all(sr, CK_NORMAL);
 
-   printf("%d\n", (int)s21_strlen((char*)src));
-//    printf("%s\n", strtok(cc, "t"));
-   printf("%s\n", st);
-   printf("%s\n", s21_strncat(st, ccc, 4));
-   return 0;
+      failed += srunner_ntests_failed(sr);
+      srunner_free(sr);
+   }
+   printf("========= FAILED: %d =========\n", failed);
+
+   return failed == 0 ? 0 : 1;
 }
