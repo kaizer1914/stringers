@@ -9,7 +9,7 @@ s21_string.a: s21_string.c s21_string.h
 	ar rcs s21_string.a s21_string.o
 	rm -rf s21_string.o
 
-test: s21_string.a s21_string_tests.c s21_string.h test_*.c
+test: s21_string.a s21_string_tests.c s21_string_tests.h test_*.c
 	$(CC) $(COVERAGE) -c s21_string_tests.c test_*.c
 	$(CC) $(COVERAGE) -o s21_string_tests s21_string_tests.o test_*.o -L. s21_string.a $(CHECK_FLAGS)
 	rm -rf s21_string_tests.o test_*.o

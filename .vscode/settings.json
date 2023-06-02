@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "s21_string.h": "c"
+        "cstring": "c",
+        "string.h": "c",
+        "errno.h": "c",
+        "s21_string.h": "c",
+        "error.h": "c",
+        "features.h": "c",
+        "s21_string_tests.h": "c"
     }
 }
